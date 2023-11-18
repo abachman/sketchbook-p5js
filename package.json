@@ -1,0 +1,15 @@
+{
+  "name": "p5js-esbuild",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "esbuild src/index.js --bundle --outfile=public/bundle.js --watch --target=chrome58,firefox57 --servedir=public"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "esbuild": "^0.19.5",
+    "p5": "^1.8.0"
+  }
+}
