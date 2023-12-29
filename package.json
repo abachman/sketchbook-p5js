@@ -2,14 +2,19 @@
   "name": "p5js-esbuild",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "browser": true,
   "scripts": {
-    "watch": "esbuild src/index.js --bundle --outfile=public/bundle.js --watch --target=chrome58,firefox57 --servedir=public"
+    "biome": "biome",
+    "watch": "bin/build"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "esbuild": "^0.19.5",
     "p5": "^1.8.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.4.1",
+    "esbuild": "^0.19.5",
+    "eventsource": "^2.0.2"
   }
 }

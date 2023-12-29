@@ -11,9 +11,9 @@ class LSystem {
   generate(n) {
     let s = this.axiom
     for (let i = 0; i < n; i++) {
-      let ns = ''
+      let ns = ""
       for (let j = 0; j < s.length; j++) {
-        let c = s[j]
+        const c = s[j]
         if (this.rules[c]) {
           ns += this.rules[c]
         } else {
@@ -32,24 +32,24 @@ class LSystem {
     else translate(width / 2, height / 2)
 
     for (let i = 0; i < s.length; i++) {
-      let c = s[i]
+      const c = s[i]
 
       if (operations) {
         operations(c)
-      } else if (c == 'F') {
+      } else if (c === "F") {
         // let nx = len * cos(angle)
         // let ny = len * sin(angle)
         line(0, 0, 0, length)
         translate(0, length)
-      } else if (c == '+') {
+      } else if (c === "+") {
         rotate(angle)
         // angle += angle
-      } else if (c == '-') {
+      } else if (c === "-") {
         rotate(-angle)
         // angle -= angle
-      } else if (c == '[') {
+      } else if (c === "[") {
         push()
-      } else if (c == ']') {
+      } else if (c === "]") {
         pop()
       }
     }
@@ -59,10 +59,10 @@ class LSystem {
 function rulesets() {
   return {
     plant: {
-      axiom: 'X',
+      axiom: "X",
       rules: {
-        X: 'F-[[X]+X]+F[+FX]-X',
-        F: 'FF',
+        X: "F-[[X]+X]+F[+FX]-X",
+        F: "FF",
       },
       angle: PI / 7,
       init: () => {
@@ -72,9 +72,9 @@ function rulesets() {
       length: 5,
     },
     fractal: {
-      axiom: 'F-F-F-F',
+      axiom: "F-F-F-F",
       rules: {
-        F: 'FF-F--F-F',
+        F: "FF-F--F-F",
       },
       angle: PI / 2,
       init: () => {
@@ -83,10 +83,10 @@ function rulesets() {
       },
     },
     sierpinski: {
-      axiom: 'A',
+      axiom: "A",
       rules: {
-        A: 'B-A-B',
-        B: 'A+B+A',
+        A: "B-A-B",
+        B: "A+B+A",
       },
       init: () => {
         translate(20, height - 20)
@@ -97,34 +97,34 @@ function rulesets() {
         const length = 2
         const angle = PI / 3
         switch (c) {
-          case 'A':
-          case 'B':
+          case "A":
+          case "B":
             line(0, 0, 0, -length)
             translate(0, -length)
             break
-          case '+':
+          case "+":
             rotate(angle)
             break
-          case '-':
+          case "-":
             rotate(-angle)
             break
         }
       },
     },
     copilot: {
-      axiom: 'F',
+      axiom: "F",
       rules: {
         // F: 'F[+F]F[-F]F',
-        F: 'F-[+F-F-F]+[+F-F+F]',
+        F: "F-[+F-F-F]+[+F-F+F]",
       },
       length: 24,
       angle: PI * 0.47,
     },
     tree: {
-      axiom: '0',
+      axiom: "0",
       rules: {
-        1: '11',
-        0: '1[0]0',
+        1: "11",
+        0: "1[0]0",
       },
       init: () => {
         translate(width / 2, height)
@@ -133,18 +133,18 @@ function rulesets() {
         const length = 3
         const angle = PI / 4
         switch (c) {
-          case '1':
+          case "1":
             line(0, 0, 0, -length)
             translate(0, -length)
             break
-          case '0':
+          case "0":
             translate(0, -length)
             break
-          case '[':
+          case "[":
             push()
             rotate(angle)
             break
-          case ']':
+          case "]":
             pop()
             rotate(-angle)
             break
@@ -154,13 +154,18 @@ function rulesets() {
   }
 }
 
-let sets, pattern, lsys
+let sets
+let pattern
+let lsys
+
+// 'plant','fractal','sierpinski','copilot','tree'
+const PATTERN = "copilot"
 
 window.setup = () => {
   createCanvas(400, 400)
 
   sets = rulesets()
-  pattern = sets.sierpinski
+  pattern = sets[PATTERN]
   lsys = new LSystem(pattern.axiom, pattern.rules)
 }
 
@@ -168,10 +173,10 @@ window.draw = () => {
   background(200, 50, 40)
 
   stroke(0)
-  let s = lsys.generate(pattern.generations || 5)
+  const s = lsys.generate(pattern.generations || 5)
   text(s.length, 5, 16)
 
-  console.log('s length', s.length)
+  console.log("s length", s.length)
   if (s.length < 500) {
     console.log(s)
   }
@@ -179,9 +184,8 @@ window.draw = () => {
   if (s.length < 100000) {
     lsys.draw(s, pattern)
   } else {
-    console.error('i am worried that this will crash the browser')
+    console.error("i am worried that this will crash the browser")
   }
 
   noLoop()
 }
-
