@@ -1,5 +1,5 @@
 // import "./sketches/800x80__genuary_13.js"
-import "./sketches/800x80__genuary_13.js"
+import "./sketches/800x80__genuary_13.p5.js"
 
 import p5 from "p5"
 new p5()

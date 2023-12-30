@@ -1,32 +1,26 @@
 #!/usr/bin/env node
 
-const { spawn } = require("node:child_process");
-const EventSource = require("eventsource");
+// const { spawn } = require("node:child_process");
+// const EventSource = require("eventsource");
+const { p5jsPlugin } = require("../src/build/p5js_plugin.js");
+const esbuild = require("esbuild");
 
-const watcher = spawn(
-  "node_modules/.bin/esbuild",
-  [
-    "src/index.js",
-    "--bundle",
-    "--outfile=public/bundle.js",
-    "--servedir=public",
-    "--target=es2020",
-    "--watch",
-  ],
-  { stdio: "inherit" },
-);
+async function build() {
+  let ctx = await esbuild.context({
+    entryPoints: ['src/index.js'],
+    outfile: 'public/bundle.js',
+    bundle: true,
+    target: 'es2020',
+    plugins: [p5jsPlugin],
+  })
 
-watcher.on("exit", () => {
-  console.log("esbuild exited");
-});
+  await ctx.watch()
 
-const esbuild = new EventSource("http://localhost:8000/esbuild");
-esbuild.addEventListener("change", (evt) => {
-  console.log("REBUILT", evt);
-  // location.reload();
-});
-// const { spawn } = require('node:child_process');
-// new EventSource("/esbuild").addEventListener("change", () => {
-//   console.log("RELOAD!");
-//   location.reload();
-// });
+  let { host, port } = await ctx.serve({
+    servedir: 'public',
+  })
+
+  console.log(`Serving on http://${host}:${port}`)
+}
+
+build().catch(() => process.exit(1))
