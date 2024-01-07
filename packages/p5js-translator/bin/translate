@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+const fs = require("node:fs");
+const globalToInstance = require("../translate.js");
+
+const fn = process.argv[2];
+if (!fn) {
+  console.error("Usage: node translate.js <filename>");
+  process.exit(1);
+}
+const code = fs.readFileSync(fn);
+
+console.log(globalToInstance(code, 'sketch'));

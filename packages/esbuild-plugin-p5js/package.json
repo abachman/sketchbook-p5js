@@ -1,10 +1,10 @@
 {
-  "name": "sketchbook-p5js",
-  "private": true,
-  "browser": true,
+  "name": "esbuild-plugin-p5js",
+  "version": "0.1.0",
+  "description": "An esbuild plugin that turns a folder of p5.js global mode sketches into a single import statement.",
+  "main": "index.js",
   "scripts": {
-    "biome": "biome",
-    "watch": "bin/build"
+    "test": "node --test"
   },
   "author": "Adam Bachman <adam.bachman@gmail.com>",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "esbuild": "^0.19.5",
     "eventsource": "^2.0.2"
   },
-  "workspaces": [
+  "packages": [
     "packages/esbuild-plugin-p5js",
     "packages/p5js-translator"
   ]

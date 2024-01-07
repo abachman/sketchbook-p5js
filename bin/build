@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-// const { spawn } = require("node:child_process");
-// const EventSource = require("eventsource");
-const { p5jsPlugin } = require("../src/build/p5js_plugin.js");
+const { p5jsPlugin } = require("esbuild-plugin-p5js");
 const esbuild = require("esbuild");
 
 async function build() {
@@ -11,7 +9,8 @@ async function build() {
     outfile: 'public/bundle.js',
     bundle: true,
     target: 'es2020',
-    plugins: [p5jsPlugin],
+    jsx: "automatic",
+    plugins: [p5jsPlugin()],
   })
 
   await ctx.watch()

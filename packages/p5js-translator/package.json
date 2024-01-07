@@ -1,0 +1,19 @@
+{
+  "name": "p5js-translator",
+  "version": "0.1.0",
+  "description": "A p5.js sketch translation function to take sketches from global-mode to instance-mode.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test --test-reporter=./__test__/support/reporter.js"
+  },
+  "author": "Adam Bachman <adam.bachman@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "acorn": "^8.11.3",
+    "acorn-walk": "^8.3.1",
+    "debug": "^4.3.4"
+  },
+  "devDependencies": {
+    "diff": "^5.1.0"
+  }
+}

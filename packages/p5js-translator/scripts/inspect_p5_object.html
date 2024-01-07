@@ -1,0 +1,53 @@
+<!-- 
+
+Build a list of all the methods and properties of the p5 instance and its prototype.
+
+-->
+<html>
+<head>
+    <title>introspection time</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+    <script>
+      window.local = null
+
+      const sketch = (p) => {
+        p.setup = () => {
+          p.createCanvas(10, 10)
+          p.background(0)
+        }
+
+        p.draw = () => {
+          p.noLoop()
+
+          const tprops = Object.getOwnPropertyNames(p).filter(prop => prop.toString()[0] != '_')
+          console.log(JSON.stringify(tprops))
+          const tDiv = document.createElement('div')
+          tDiv.innerHTML = "<h2>p5 instance properties</h2>" + JSON.stringify(tprops)
+          document.body.appendChild(tDiv)
+
+          // list all methods and properties of the p5 instance prototype
+          const props = Object.getOwnPropertyNames(
+            Object.getPrototypeOf(p)
+          ).filter(prop => prop.toString()[0] != '_')
+
+          const methods = props.filter(prop => typeof p[prop] == 'function')
+          const properties = props.filter(prop => typeof p[prop] != 'function')
+
+          const methodsDiv = document.createElement('div')
+          methodsDiv.innerHTML = "<h2>Methods</h2>" + JSON.stringify(methods)
+          document.body.appendChild(methodsDiv)
+
+          const propertiesDiv = document.createElement('div')
+          propertiesDiv.innerHTML = "<h2>Properties</h2>" + JSON.stringify(properties)
+          document.body.appendChild(propertiesDiv)
+
+          window.local = p
+        }
+      }
+
+      new p5(sketch)
+    </script>
+  </head>
+  <body></body>
+</html>
+  
