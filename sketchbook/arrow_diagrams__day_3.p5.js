@@ -1,5 +1,4 @@
 // genuary 2022, day 3
-
 class Particle {
   constructor(p, v) {
     Object.assign(this, { p, v });
@@ -16,6 +15,7 @@ class Particle {
 
   update() {
     this.life--;
+
     if (this.life <= 0) {
       this.alive = false;
     }

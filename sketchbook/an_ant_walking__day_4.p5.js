@@ -118,9 +118,9 @@ function draw() {
   }
 
   if (gen >= PIC_AFTER) {
-    saveCanvas(`ant-life-x${ACOUNT}-${rules.join("")}`, "png");
+    // saveCanvas(`ant-life-x${ACOUNT}-${rules.join("")}`, "png");
     gen = 0;
-    clean();
+    // clean();
     init();
   }
 }

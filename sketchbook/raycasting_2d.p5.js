@@ -1,9 +1,10 @@
 //2D visibility
 // Ray Casting
 
+// FIXME: this doesn't work with p5.js esbuild plugin
+//
 import { Ray } from "./raycasting/Ray.js";
 import { Boundary } from "./raycasting/Boundary.js";
-import p5 from "p5";
 
 const CAPTURE = false;
 

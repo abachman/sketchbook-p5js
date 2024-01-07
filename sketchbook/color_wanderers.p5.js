@@ -7,7 +7,7 @@ let fps = 30;
 
 function setup() {
   createCanvas(500, 500)
-  let bg = 00
+  let bg = 0
   background(0)
   stroke(255)
   strokeWeight(4)

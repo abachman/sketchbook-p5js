@@ -1,9 +1,9 @@
 const sphs = [];
-let img;
+// let img;
 
-function preload() {
-  img = loadImage('paper.jpg')
-}
+// function preload() {
+//   img = loadImage('paper.jpg')
+// }
 
 function gen(y) {
   const RANGE = 200
@@ -39,7 +39,7 @@ function draw() {
   fill(200);
   noStroke();
   
-  texture(img)
+  // texture(img)
   
   // ambientMaterial(50);
   // shininess(10);
