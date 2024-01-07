@@ -1,10 +1,19 @@
-// import "./sketches/800x80__genuary_13.js"
-import "./sketches/800x80__genuary_13.p5.js"
+// import "./sketches/800x80__genuary_13.p5.js"
+import App from "./selector/Selector.jsx"
+import CCapture from "./ccapture.js"
 
+import * as sketches from "../sketchbook/*.p5.js"
 import p5 from "p5"
-new p5()
 
-new EventSource("/esbuild").addEventListener("change", () => {
-  console.log("RELOAD 2")
-  location.reload()
-})
+function domReady(fn) {
+  // If we're early to the party
+  document.addEventListener("DOMContentLoaded", fn)
+  // If late; I mean on time.
+  if (document.readyState === "interactive" || document.readyState === "complete") {
+    fn()
+  }
+}
+
+window.CCapture = CCapture
+
+domReady(() => App({ sketches, p5 }))
