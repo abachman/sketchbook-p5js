@@ -3,10 +3,11 @@ const child_process = require("node:child_process")
 const path = require("node:path")
 const globalToInstance = require("p5js-translator")
 const debug = require("debug")("esbuild-plugin-p5js")
-const Cache = require("./cache.js")
+const FileCache = require("./file_cache.js")
+const safeName = require("safe-name")
 
 function zp(n) {
-  return n < 10 ? `00${n}` : n < 100 ? `0${n}` : `${n}`
+  return n.toString().padStart(4, "0")
 }
 
 function extractImports(code) {
@@ -25,12 +26,27 @@ function extractImports(code) {
   return [imports.join("\n"), input.join("\n")]
 }
 
+function wrappedSketch(file, i) {
+  const varName = safeName(path.basename(file.path, ".p5.js"))
+  const sn = `p5${zp(i)}_${varName}`
+  return `
+  const ${sn} = (sketch) => {
+    ${file.contents} 
+  };
+  const ${sn}_bundle = {
+    sketch: ${sn},
+    name: "${file.path}",
+  };
+  export { ${sn}_bundle as ${sn} };
+  `
+}
+
 async function loadAndTranslateFile(fpath) {
   const stat = await fs.stat(fpath)
   const mtime = stat.mtime.getTime()
 
   debug("fetch", fpath, mtime)
-  return Cache.fetch(fpath, mtime, async () => {
+  return FileCache.fetch(fpath, mtime, async () => {
     debug("building", path.basename(fpath))
     const original = await fs.readFile(fpath, "utf8")
     const [imports, input] = extractImports(original)
@@ -102,34 +118,18 @@ const p5jsPlugin = () => {
           return { path: sketches[i], contents, imports }
         })
 
-        let contents = `
-          import p5 from "p5";
-          ${files.map((file) => file.imports).join("\n")}
-        `
-        contents += files
-          .map((file, i) => {
-            const sn = `sketch_${zp(i)}`
-            return `
-            const ${sn} = (sketch) => {
-              ${file.contents} 
-            };
-            const ${sn}_bundle = {
-              sketch: ${sn},
-              name: "${file.path}",
-            };
-            export { ${sn}_bundle as ${sn} };
-          `
-          })
-          .join("\n")
-
+        let contents = [
+          'import p5 from "p5";',
+          ...files.map(f => f.imports)
+        ]
+        contents.push(files.map(wrappedSketch).join("\n"))
+        contents = contents.join("\n")
         const formatted = await formatJs(contents)
-
         if (debug.enabled) {
           const tmpdir = path.join(process.cwd(), "tmp")
           await fs.writeFile(path.join(tmpdir, "translated.js"), contents)
           await fs.writeFile(path.join(tmpdir, "formatted.js"), formatted)
         }
-
         return {
           contents: formatted,
           pluginName: "p5js",

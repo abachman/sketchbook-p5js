@@ -1,4 +1,4 @@
-// a fake CCapture object to make all the sketches work
+// a fake CCapture object to make all the sketches that use it work
 
 var CCapture = function() {
   this.start = function() {
@@ -11,7 +11,8 @@ var CCapture = function() {
     // nothing
   }
   this.capture = function(canvas) {
+    // nothing
   }
 }
 
-module.exports = CCapture
+window.CCapture = CCapture

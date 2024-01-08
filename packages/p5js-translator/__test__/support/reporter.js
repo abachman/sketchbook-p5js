@@ -115,25 +115,7 @@ module.exports = async function* customReporter(source) {
   yield "\n\n";
 
   for (const [i, { data, parentStack }] of failures.entries()) {
-    /*
-      console.log({ data })
-      {
-        data: {
-          name: 'handles function params',
-          nesting: 1,
-          testNumber: 3,
-          details: { duration_ms: 11.131759, error: [Error] },
-          line: 41,
-          column: 3,
-          file: '/home/adam/projects/js-playground/p5-translator/__test__/translate.test.js'
-        }
-      }
-     */
-
     const { error } = data.details;
-    /**
-
-     **/
 
     if ("line" in data && "file" in data) {
       yield red(data.file.replace(process.cwd(), ".") + ":" + data.line);

@@ -44,11 +44,4 @@ const Selector = ({ sketches, p5 }) => {
   );
 };
 
-export default function App({ sketches, p5 }) {
-  // Clear the existing HTML content
-  document.body.innerHTML = '<div id="app"></div>';
-
-  // Render your React component instead
-  const root = createRoot(document.getElementById("app"));
-  root.render(<Selector sketches={sketches} p5={p5} />);
-}
+export { Selector } 

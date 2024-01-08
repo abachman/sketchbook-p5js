@@ -2,8 +2,8 @@
 import App from "./selector/Selector.jsx"
 import CCapture from "./ccapture.js"
 
-import * as sketches from "../sketchbook/*.p5.js"
 import p5 from "p5"
+import * as sketches from "../sketchbook/*.p5.js"
 
 function domReady(fn) {
   // If we're early to the party

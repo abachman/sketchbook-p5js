@@ -1,0 +1,9 @@
+{
+  "name": "esbuild-plugin-bookmarklet",
+  "private": true,
+  "description": "A tiny esbuild bookmarklet plugin",
+  "main": "index.js",
+  "author": "Reese Armstrong <https://reeseric.ci/",
+  "homepage": "https://github.com/reesericci/esbuild-plugin-bookmarklet",
+  "license": "GPLV3"
+}
