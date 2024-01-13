@@ -10,4 +10,4 @@ if (!fn) {
 }
 const code = fs.readFileSync(fn);
 
-console.log(globalToInstance(code, 'sketch'));
+console.log(globalToInstance(code, { instance: 'sketch' }));

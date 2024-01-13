@@ -1,3 +1,4 @@
+//  prime spiral https://editor.p5js.org/abachman/sketches/a2FGWTGix
 let STEP_SIZE = 2;
 let RAD = 2;
 let REPS = 100;
@@ -87,3 +88,4 @@ function precalc(mx) {
 
   console.log("precalc up to", mx);
 }
+

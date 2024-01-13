@@ -1,7 +1,8 @@
+//  DLA -- 02 https://editor.p5js.org/abachman/sketches/9FGH8Q-5w
 // https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
 const SPEED = 4;
 const SIZE = 7;
-const COUNT = 3000;
+const COUNT = 4000;
 const FRAME_COUNT = 150;
 const ROUNDS = 1;
 const GEN_RATE = 1;
@@ -14,7 +15,7 @@ let tree,
   particles = [];
 
 function setup() {
-  createCanvas(400, 700);
+  createCanvas(400, 650);
   colorMode(HSB);
 
   // https://github.com/timohausmann/quadtree-ts
@@ -201,3 +202,4 @@ class Particle extends Quadtree.Circle {
     }
   }
 }
+

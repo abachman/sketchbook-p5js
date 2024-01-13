@@ -1,3 +1,4 @@
+//  this is not a NFT, genuary 14 https://editor.p5js.org/abachman/sketches/jI2UD0iiN
 const NSCALE = 0.05;
 const WIGGLE = 2;
 
@@ -98,3 +99,4 @@ function screenshot() {
   saveCanvas(name, 'png');
   console.log("tried to save", name);
 }
+

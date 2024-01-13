@@ -1,3 +1,4 @@
+//  Battle Spots https://editor.p5js.org/abachman/sketches/yPpKboSRb
 /*
 this is an example of distributed state with 
 p5.websockets.
@@ -321,3 +322,4 @@ function hash(b) {
   a ^= a >> 11;
   return ((a + (a << 15) & 4294967295) >>> 0).toString(16)
 }
+

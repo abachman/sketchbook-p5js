@@ -2,7 +2,11 @@ const fs = require("node:fs/promises")
 const child_process = require("node:child_process")
 const path = require("node:path")
 const globalToInstance = require("p5js-translator")
-const debug = require("debug")("esbuild-plugin-p5js")
+
+const Debug = require("debug")
+const debug = Debug("esbuild-plugin-p5js")
+const cd = Debug('config')
+
 const FileCache = require("./file_cache.js")
 const safeName = require("safe-name")
 
@@ -41,7 +45,7 @@ function wrappedSketch(file, i) {
   `
 }
 
-async function loadAndTranslateFile(fpath) {
+async function loadAndTranslateFile(fpath, translateOptions) {
   const stat = await fs.stat(fpath)
   const mtime = stat.mtime.getTime()
 
@@ -50,7 +54,7 @@ async function loadAndTranslateFile(fpath) {
     debug("building", path.basename(fpath))
     const original = await fs.readFile(fpath, "utf8")
     const [imports, input] = extractImports(original)
-    const translated = globalToInstance(input, "sketch")
+    const translated = globalToInstance(input, { instance: "sketch", config: translateOptions })
     return [imports, translated]
   })
 }
@@ -76,13 +80,15 @@ async function formatJs(contents) {
   })
 }
 
-const p5jsPlugin = () => {
+const p5jsPlugin = (config = {}) => {
   const scache = {}
 
   return {
     name: "p5js",
     setup(build) {
-      debug("p5jsPlugin setup")
+      const options = build.initialOptions
+      cd("p5jsPlugin setup", { options, config })
+      const translateOptions = config
 
       build.onStart(() => {
         debug("onStart")
@@ -112,16 +118,15 @@ const p5jsPlugin = () => {
       build.onLoad({ filter: /\*\.p5\.js$/, namespace: "p5js" }, async (args) => {
         const { dirname, sketches, resolveDir } = args.pluginData
         const sketchContents = await Promise.all(
-          sketches.map((sketch) => loadAndTranslateFile(path.join(dirname, sketch))),
+          sketches.map((sketch) => {
+            return loadAndTranslateFile(path.join(dirname, sketch), translateOptions)
+          }),
         )
         const files = sketchContents.map(([imports, contents], i) => {
           return { path: sketches[i], contents, imports }
         })
 
-        let contents = [
-          'import p5 from "p5";',
-          ...files.map(f => f.imports)
-        ]
+        let contents = ['import p5 from "p5";', ...files.map((f) => f.imports)]
         contents.push(files.map(wrappedSketch).join("\n"))
         contents = contents.join("\n")
         const formatted = await formatJs(contents)
@@ -130,6 +135,7 @@ const p5jsPlugin = () => {
           await fs.writeFile(path.join(tmpdir, "translated.js"), contents)
           await fs.writeFile(path.join(tmpdir, "formatted.js"), formatted)
         }
+
         return {
           contents: formatted,
           pluginName: "p5js",

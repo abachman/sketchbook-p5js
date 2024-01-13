@@ -13,13 +13,11 @@ async function copyFiles() {
   const chalk = new Chalk({ level: 2 });
 
   const templates = path.resolve(path.join(local, "../templates"))
-  console.log('looking for files in', templates)
-
-  const files = await fs.readdir(templates);
+  const files = ['biome.json', 'p5js-sketchbook.json'];
 
   for (const file of files) {
     const src = path.join(templates, file);
-    const dest = path.join(cwd, `public/${file}`);
+    const dest = path.join(cwd, file);
 
     let exists = true;
     try {

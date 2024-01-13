@@ -3,10 +3,17 @@
 const process = require("node:process")
 const acorn = require("acorn")
 const walk = require("acorn-walk")
-const debug = require("debug")("p5js-translator")
+const Debug = require("debug")
+const debug = Debug("p5js-translator")
+const cd = Debug('config')
 const keywords = require("./keywords.js")
 
-// open file named in args and parse it
+// lineAt(code: string, pos: int): { i: int, col: int, line: string }
+//
+//     i: [Int] index of line
+//     col: [Int] column of pos in line
+//     line: [String] value of the given line
+//
 const lineAt = (code, pos) => {
   const lines = code
     .toString()
@@ -38,8 +45,12 @@ const lineAt = (code, pos) => {
   return { i: line, col, line: last }
 }
 
+// isDefined(state: DefinitionState, name: string): boolean
 const isDefined = (state, name) => {
   for (let i = state.depth; i >= 0; i--) {
+    if (!state.defs[i]) continue
+
+    // debug("state.defs[", i, "][", name, "]")
     if (state.defs[i][name]) {
       return true
     }
@@ -47,15 +58,19 @@ const isDefined = (state, name) => {
   return false
 }
 
+// defn(state: DefinitionState, name: string, overrides: DefinitionState)
 function defn(state, name, overrides = {}) {
   const depth = overrides.depth || state.depth
+  // debug("defn[", depth, "][", name, "]")
   if (!state.defs[depth]) {
     state.defs[depth] = {}
   }
   state.defs[depth][name] = true
 }
 
-function translate(code, instance = "p5") {
+// translate(code: string, instance: new P5)
+function translate(code, { instance = 'p5', config }) {
+  cd('translate with', { instance, config })
   /*
    * type Rewrite = { start, end, replacement }
    */
@@ -63,6 +78,10 @@ function translate(code, instance = "p5") {
   const parsed = acorn.parse(code, { ecmaVersion: "2020" })
   const defs = {}
   const initial = { depth: 0, prefix: "", defs: { 0: {} } }
+
+  if (config && config.instanceMethods) {
+    keywords.extend(config.instanceMethods)
+  }
 
   const FunctionNodeHandler = (node, state, next) => {
     debug(node.type)

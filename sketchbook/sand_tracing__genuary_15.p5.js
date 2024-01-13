@@ -1,3 +1,4 @@
+//  sand tracing, genuary 15 https://editor.p5js.org/abachman/sketches/3OubqYGg2
 let particles = [];
 let doDraw = false,
   drawing = true;
@@ -195,3 +196,4 @@ function touchMoved() {
 //   doDraw = false;
 //   drawing = false;
 // }
+

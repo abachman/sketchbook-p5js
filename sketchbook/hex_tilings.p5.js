@@ -1,3 +1,4 @@
+//  Hex Tilings https://editor.p5js.org/abachman/sketches/Jh16Tfng_
 /* gridding the plane with hexagons */
 
 // radius: hexagon center to corner distance

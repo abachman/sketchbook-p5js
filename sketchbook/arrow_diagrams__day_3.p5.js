@@ -1,7 +1,12 @@
+//  arrow diagrams, day 3 https://editor.p5js.org/abachman/sketches/Eu_KjU34d
 // genuary 2022, day 3
+
 class Particle {
   constructor(p, v) {
+    window.p = p
+    window.v = v
     Object.assign(this, { p, v });
+    // console.log('x init:', this.p.x)
     this.ang = 0;
     this.life = random(15, 90);
     this.alive = true;
@@ -15,17 +20,23 @@ class Particle {
 
   update() {
     this.life--;
-
     if (this.life <= 0) {
       this.alive = false;
     }
 
+    if (!this.alive) return;
+
     // modify velocity
     this.ang = this.ang + this.dang; // % TWO_PI
+    // console.log('v before:', this.v.x)
     this.v.limit(2);
+    // console.log('v after 1:', this.v.x)
     this.v.add(this.dvx * sin(this.ang), this.dvy * cos(this.ang));
+    // console.log('v after 2:', this.v.x)
 
-    this.p.add(this.v);
+    // console.log('x before:', this.p.x)
+    this.p.add(this.v.x, this.v.y);
+    // console.log('x after:', this.p.x)
   }
 
   draw() {
@@ -42,7 +53,7 @@ class Particle {
   }
 }
 
-let COUNT = 30;
+let COUNT = 20;
 let parts = [];
 
 function setup() {
@@ -56,12 +67,14 @@ function setup() {
 }
 
 function spawn() {
+  const x = random(width)
+  const y = random(height)
   return new Particle(
-    createVector(random(width), random(height)),
+    createVector(x, y),
     // p5.Vector.random2D()
     //   .mult(100)
     //   .add(width / 2, height / 2),
-    p5.Vector.random2D().mult(2)
+    p5.Vector.random2D().mult(2) // global p5.Vector and sketch-local createVector produce different types
   );
 }
 
@@ -74,3 +87,4 @@ function draw() {
     if (!p.alive) parts[i] = spawn();
   });
 }
+

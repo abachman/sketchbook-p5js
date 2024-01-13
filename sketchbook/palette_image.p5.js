@@ -1,3 +1,4 @@
+//  palette image https://editor.p5js.org/abachman/sketches/pDSiFxrb2
 const PALETTE = [];
 function preload() {
   colorMode(HSB);
@@ -72,3 +73,4 @@ function gen(palette) {
   //     line(-10, y * step, width + 10, y * step)
   //   }
 }
+

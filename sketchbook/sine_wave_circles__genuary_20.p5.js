@@ -1,3 +1,4 @@
+//  sine wave circles, genuary 20 https://editor.p5js.org/abachman/sketches/BwJHVtn6T
 let CCOUNT = 1; // first slider, how many sine waves to smash up
 let SPIKEY = 80; // second slider, how many cycles per sine wave
 
@@ -108,3 +109,4 @@ function generate(seed, scale, colr) {
     }
   } while (t < times);
 }
+

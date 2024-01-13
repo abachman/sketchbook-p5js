@@ -1,3 +1,4 @@
+//  destroy a square, day 5 https://editor.p5js.org/abachman/sketches/u-EBIyXf-
 //
 // Destroy a square, #genuary2022 day 5, https://genuary.art/prompts#jan5
 //
@@ -86,3 +87,4 @@ function keyPressed() {
     saveCanvas(name(), 'png')
   }  
 }
+

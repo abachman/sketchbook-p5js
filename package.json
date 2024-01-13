@@ -4,19 +4,16 @@
   "browser": true,
   "scripts": {
     "biome": "biome",
-    "watch": "bin/build"
+    "build": "p5js-sketchbook build",
+    "watch": "p5js-sketchbook build --watch"
   },
   "author": "Adam Bachman <adam.bachman@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "debug": "^4.3.4",
-    "p5": "^1.9.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "p5": "^1.9.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.4.1",
-    "esbuild": "^0.19.5",
     "eventsource": "^2.0.2"
   },
   "workspaces": [

@@ -1,3 +1,4 @@
+//  continuous curve, genuary 2022-08 https://editor.p5js.org/abachman/sketches/82kNk-PDD
 let g,
   gw = 2000,
   gh = 2000;
@@ -128,3 +129,4 @@ function keyPressed() {
     console.log("boop", key);
   }
 }
+

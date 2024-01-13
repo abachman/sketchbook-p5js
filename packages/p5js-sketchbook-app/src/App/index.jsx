@@ -1,4 +1,6 @@
-import { Selector } from "./selector/Selector.jsx";
+import { createRoot } from "react-dom/client";
+import { Selector } from "./components/Selector.jsx";
+import "./styles/index.css";
 
 function domReady(fn) {
   // If we're early to the party
@@ -8,6 +10,9 @@ function domReady(fn) {
     fn()
   }
 }
+
+// Disable React DevTools warnings in console
+window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = ({ isDisabled: true })
 
 export default function App({ sketches, p5 }) {
   domReady(() => {

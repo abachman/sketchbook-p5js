@@ -1,14 +1,19 @@
 {
   "name": "p5js-sketchbook-app",
   "private": true,
-  "main": "src/App.jsx",
+  "main": "src/App/index.jsx",
   "bin": {
     "p5js-sketchbook": "bin/cli.js"
   },
   "dependencies": {
+    "@biomejs/biome": "1.4.1",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
+    "esbuild": "^0.19.5",
     "esbuild-plugin-p5js": "file:../esbuild-plugin-p5js",
-    "safe-name": "file:../safe-name"
+    "esbuild-plugin-bookmarklet": "file:../esbuild-plugin-bookmarklet",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sanitize-filename": "1.6.3"
   }
 }

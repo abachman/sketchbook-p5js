@@ -1,3 +1,4 @@
+//  hue map https://editor.p5js.org/abachman/sketches/ZEagdW6aV
 function setup() {
   createCanvas(400, 400);
   colorMode(HSB);

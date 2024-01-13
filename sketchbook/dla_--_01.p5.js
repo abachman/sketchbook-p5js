@@ -1,3 +1,4 @@
+//  DLA -- 01 https://editor.p5js.org/abachman/sketches/xTywu1LX_
 // https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
 const SPEED = 4;
 const SIZE = 22;
@@ -229,3 +230,4 @@ class Particle extends Quadtree.Circle {
     }
   }
 }
+

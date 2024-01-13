@@ -1,3 +1,4 @@
+//  sol lewitt walkers, genuary 07 https://editor.p5js.org/abachman/sketches/yFWAuwlno
 // https://genuary.art/prompts#jan7
 // sol lewitt 
 

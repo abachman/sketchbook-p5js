@@ -1,3 +1,4 @@
+//  continuous curve WEBGL, genuary day 8 https://editor.p5js.org/abachman/sketches/2GkDBAVGd
 const steps = []
 const COUNT = 100
 

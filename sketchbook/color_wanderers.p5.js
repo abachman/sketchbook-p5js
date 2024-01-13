@@ -1,3 +1,4 @@
+//  Color Wanderers https://editor.p5js.org/abachman/sketches/-nNWon9Gx
 let QUANT = 15
 let SPEED = 1.2
 
@@ -7,7 +8,6 @@ let fps = 30;
 
 function setup() {
   createCanvas(500, 500)
-  let bg = 0
   background(0)
   stroke(255)
   strokeWeight(4)

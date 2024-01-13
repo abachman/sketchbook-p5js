@@ -1,3 +1,4 @@
+//  destroy packed circles, genuary 21 https://editor.p5js.org/abachman/sketches/pG3Z7woMh
 //
 // destroy packed circles, #genuary2022 day 21
 //
@@ -47,7 +48,7 @@ function setup() {
   g = createGraphics(width, height);
   
   for (let i = 0; i < INITIAL; i++) {
-    addCircle(circles, { width, height, ALLOW_INSIDE, GROW });
+    addCircle(circles);
   }
 }
 
@@ -63,9 +64,9 @@ function draw() {
   
   // draw packed circles over lines as holes punched out
   if (frameCount % SPAWN_FRAMES == 0) {
-    addCircle(circles, { width, height, ALLOW_INSIDE, GROW });
+    addCircle(circles);
   }
-  grow(circles, { GROW });
+  grow(circles);
   g.background(0);
   g.erase();
   display(circles, g);
@@ -79,10 +80,13 @@ function keyPressed() {
   }  
 }
 
-//// circle packing
+/* ------------------======================------------------
+ * circle-packing.js
+ * ------------------======================------------------ */
 
-function addCircle(existing, { width, height, ALLOW_INSIDE, GROW }) {
+function addCircle(existing) {
   let tries = 10;
+
   let c = {
     x: random(width),
     y: random(height),
@@ -90,9 +94,8 @@ function addCircle(existing, { width, height, ALLOW_INSIDE, GROW }) {
     growing: true,
     neighbors: [],
   };
-
   if (ALLOW_INSIDE) {
-    c.touching = overlap(c, { GROW });
+    c.touching = overlap(c);
   } else {
     c.touching = inside(c);
   }
@@ -115,7 +118,7 @@ function inside(c) {
   };
 }
 
-function overlap(c, { GROW }) {
+function overlap(c) {
   const margin = GROW * 3
   return function (other) {
     if (other === c) {
@@ -130,8 +133,8 @@ function overlap(c, { GROW }) {
   }
 }
 
-function grow(cs, { GROW }) {
-  for (const c of cs) {
+function grow(cs) {
+  cs.forEach((c) => {
     if (c.growing) {
       c.r += GROW;
       let touched;
@@ -144,7 +147,7 @@ function grow(cs, { GROW }) {
         c.neighbors.push(touched);
       }
     }
-  }
+  });
 }
 
 function display(cs, g) {
@@ -164,8 +167,9 @@ function display(cs, g) {
   }
 }
 
-//// line-drawing
-
+/* ------------------======================------------------
+ * line-drawing.js
+ * ------------------======================------------------ */
 function rot() {
   if (SCATTER.rot) {
     return random(ROT);
@@ -199,3 +203,4 @@ function xoff() {
 function yoff() {
   return SCATTER.y ? random(height) + height * YOFF : YOFF;
 }
+

@@ -10,7 +10,7 @@ const Selector = ({ sketches, p5 }) => {
       // location.reload();
     });
 
-    let sketch = sketches.sketch_016;
+    let sketch = Object.values(sketches)[0];
     let s = new URLSearchParams(window.location.search);
     if (s.has("sketch") && s.get("sketch") in sketches) {
       sketch = sketches[s.get("sketch")];

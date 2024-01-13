@@ -1,9 +1,10 @@
+//  glow chain https://editor.p5js.org/abachman/sketches/uXQKwRnFm
 const sphs = [];
-// let img;
+let img;
 
-// function preload() {
-//   img = loadImage('paper.jpg')
-// }
+function preload() {
+  img = loadImage('paper.jpg')
+}
 
 function gen(y) {
   const RANGE = 200
@@ -61,3 +62,4 @@ function draw() {
   //   if (frameCount % 60 == 0) console.log(cy)
   if (sphs[0][1] > cy + height / 2 + 100) sphs.shift();
 }
+

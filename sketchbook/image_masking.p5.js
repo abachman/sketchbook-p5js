@@ -1,3 +1,4 @@
+//  Image Masking https://editor.p5js.org/abachman/sketches/jvN0CJUee
 let img, c;
 
 function setup() {

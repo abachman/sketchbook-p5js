@@ -1,3 +1,4 @@
+//  many wormies https://editor.p5js.org/abachman/sketches/B0k0vaHFo
 // Wiggler, based on:
 // Processing Examples > Demos > Graphics > Yellowtail
 // by Golan Levin
@@ -32,7 +33,7 @@ type Point = {
 type Coord = [ number, number ];
 */
 
-window.setup = () =>  {
+function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.touchStarted(mousePressed);
 
@@ -40,7 +41,7 @@ window.setup = () =>  {
   stroke(255);
 }
 
-window.windowResized = () => {
+function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
@@ -52,7 +53,7 @@ let start, finish;
 let speed = 0.35;
 let STEPS = 2;
 
-window.draw = () => {
+function draw() {
   background(0);
 
   if (drawing) {
@@ -150,13 +151,13 @@ window.draw = () => {
   }
 }
 
-window.mousePressed = () => {
+function mousePressed() {
   nextWormy = [];
   drawing = true;
   weight = 0;
 }
 
-window.mouseDragged = () => {
+function mouseDragged() {
   weight += dw;
   if (weight < 0 || weight > midpoint) {
     dw = -dw
@@ -164,7 +165,7 @@ window.mouseDragged = () => {
 }
 
 // i is index of point that this point will approach
-window.newPoint = (x, y, i, w) => {
+function newPoint(x, y, i, w) {
   return {
     at: [x, y],
     from: [x, y],
@@ -175,7 +176,7 @@ window.newPoint = (x, y, i, w) => {
   }
 }
 
-window.mouseReleased = () => {
+function mouseReleased() {
   drawing = false;
   if (nextWormy.length === 0) {
     reset();
@@ -228,6 +229,6 @@ function reset(evt) {
   worms = [];
 }
 
-window.keyPressed = () => {
+function keyPressed() {
   reset();
 }

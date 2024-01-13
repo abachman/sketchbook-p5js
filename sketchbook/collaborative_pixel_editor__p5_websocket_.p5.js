@@ -1,3 +1,4 @@
+//  Collaborative Pixel Editor (p5.websocket) https://editor.p5js.org/abachman/sketches/sXrKpxXps
 let colors = [
   [0, 0, 0],
   [255, 0, 0],
@@ -115,3 +116,4 @@ function insideBorder(x, y) {
     y < height - pixelSize * 2
   );
 }
+

@@ -1,3 +1,4 @@
+//  Identicons https://editor.p5js.org/abachman/sketches/fijrFyXIH
 const CELLS = 5;
 const IMG = 200;
 let img = null;
@@ -110,3 +111,4 @@ function hash(b) {
   a ^= a >> 11;
   return (((a + (a << 15)) & 4294967295) >>> 0).toString(16);
 }
+

@@ -1,3 +1,4 @@
+//  Arc Paint https://editor.p5js.org/abachman/sketches/bryF1F8Kl
 const PALETTE = [
   '#ef4f4f',
   '#a685e2',

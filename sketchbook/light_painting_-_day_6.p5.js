@@ -1,3 +1,4 @@
+//  light painting - day 6 https://editor.p5js.org/abachman/sketches/jKtcd_X2u
 // 2022, genuary day 6, ""
 //
 // good artists trade, other artists steal
@@ -140,3 +141,4 @@ function keyPressed() {
     saveCanvas(`light-painting--${frameCount}`, "png");
   }
 }
+

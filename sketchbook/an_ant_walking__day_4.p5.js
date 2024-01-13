@@ -1,3 +1,4 @@
+//  an ant walking, day 4 https://editor.p5js.org/abachman/sketches/5fsl7jhoj
 // HEY LOOK AT THIS! IT'S LANGSTON' ANT!
 // If you run it, it'll fill your dang hard drive with ant-life pngs.
 
@@ -118,9 +119,9 @@ function draw() {
   }
 
   if (gen >= PIC_AFTER) {
-    // saveCanvas(`ant-life-x${ACOUNT}-${rules.join("")}`, "png");
+    saveCanvas(`ant-life-x${ACOUNT}-${rules.join("")}`, "png");
     gen = 0;
-    // clean();
+    clean();
     init();
   }
 }
@@ -180,3 +181,4 @@ function keyPressed() {
     init();
   }
 }
+

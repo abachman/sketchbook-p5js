@@ -1,3 +1,4 @@
+//  flow field,  day 4 https://editor.p5js.org/abachman/sketches/N1QAqnwMA
 // genuary 2022, day 4
 let p, v;
 let dir;
@@ -85,3 +86,4 @@ function rot(x, y) {
   // Y CIRCLE
   return map(y, 0, height, PI, 0)
 }
+

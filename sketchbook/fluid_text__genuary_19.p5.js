@@ -1,3 +1,4 @@
+//  fluid text, genuary 19 https://editor.p5js.org/abachman/sketches/A8toulllC
 let font, points, hh, hw, letters;
 let rec;
 
@@ -145,3 +146,4 @@ function letterShape(ps, cx, cy, mx, my) {
   }
   endShape();
 }
+

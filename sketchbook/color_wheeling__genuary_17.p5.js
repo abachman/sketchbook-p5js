@@ -1,3 +1,4 @@
+//  color wheeling, genuary 17 https://editor.p5js.org/abachman/sketches/dRXT5CdFy
 const ROWS = 160;
 const STEP = 5;
 
@@ -89,3 +90,4 @@ function horiz(ay) {
 function elps(ay) {
   ellipse(width / 2, height / 2, ay);
 }
+
