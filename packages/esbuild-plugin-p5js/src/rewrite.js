@@ -5,9 +5,11 @@ const globalToInstance = require("p5js-translator")
 
 const Debug = require("debug")
 const debug = Debug("esbuild-plugin-p5js")
-const cd = Debug('config')
+const cd = Debug("config")
+const rebuildLog = Debug("rebuild")
 
 const FileCache = require("./file_cache.js")
+const extractFrontmatter = require("./frontmatter")
 const safeName = require("safe-name")
 
 function zp(n) {
@@ -30,18 +32,34 @@ function extractImports(code) {
   return [imports.join("\n"), input.join("\n")]
 }
 
-function wrappedSketch(file, i) {
-  const varName = safeName(path.basename(file.path, ".p5.js"))
-  const sn = `p5${zp(i)}_${varName}`
+function j(obj) {
+  return JSON.stringify(obj)
+}
+
+function wrappedSketch(file, { i = 0, varname = null, asDefault = false }) {
+  debug("wrap", { file })
+
+  if (varname === null) {
+    const varsafe = safeName(path.basename(file.path, ".p5.js"))
+    varname = `p5${zp(i)}_${varsafe}`
+  }
+
+  const bundle = `${varname}_bundle`
+  const metadata = JSON.stringify(file.metadata)
+  const jpath = JSON.stringify(file.path)
+  const date = JSON.stringify(new Date())
+  const exporter = asDefault ? `export default ${bundle}` : `export { ${bundle} as ${varname} }`
   return `
-  const ${sn} = (sketch) => {
+  const ${varname} = (sketch) => {
     ${file.contents} 
   };
-  const ${sn}_bundle = {
-    sketch: ${sn},
-    name: "${file.path}",
+  const ${bundle} = {
+    translated: ${date},
+    path: ${jpath},
+    sketch: ${varname},
+    metadata: ${metadata},
   };
-  export { ${sn}_bundle as ${sn} };
+  ${exporter};
   `
 }
 
@@ -49,22 +67,28 @@ async function loadAndTranslateFile(fpath, translateOptions) {
   const stat = await fs.stat(fpath)
   const mtime = stat.mtime.getTime()
 
-  debug("fetch", fpath, mtime)
+  debug("fetch:", fpath, mtime)
   return FileCache.fetch(fpath, mtime, async () => {
-    debug("building", path.basename(fpath))
+    debug("build:", path.basename(fpath))
     const original = await fs.readFile(fpath, "utf8")
-    const [imports, input] = extractImports(original)
-    const translated = globalToInstance(input, { instance: "sketch", config: translateOptions })
-    return [imports, translated]
+
+    const [metadata, sketch] = extractFrontmatter(original)
+    if (metadata && !metadata.mtime) {
+      metadata["mtime"] = mtime
+    }
+
+    const [imports, code] = extractImports(sketch)
+
+    const contents = globalToInstance(code, { instance: "sketch", config: translateOptions })
+
+    return { path: fpath, metadata, imports, contents }
   })
 }
 
 async function formatJs(contents) {
-  const proc = child_process.spawn(
-    "node_modules/.bin/biome",
-    ["format", "--stdin-file-path=generated.js"],
-    { stdio: "pipe" },
-  )
+  const proc = child_process.spawn("npx", ["biome", "format", "--stdin-file-path=generated.js"], {
+    stdio: "pipe",
+  })
 
   let stdout = ""
   proc.stdout.setEncoding("utf8")
@@ -80,9 +104,11 @@ async function formatJs(contents) {
   })
 }
 
+// type config = {
+//   instanceMethods: string[],
+//   skipImport: boolean,
+// }
 const p5jsPlugin = (config = {}) => {
-  const scache = {}
-
   return {
     name: "p5js",
     setup(build) {
@@ -94,6 +120,10 @@ const p5jsPlugin = (config = {}) => {
         debug("onStart")
       })
 
+      // activates on a blob search for .p5.js files, like:
+      //
+      //   import * as sketches from "sketchbook/*.p5.js"
+      //
       build.onResolve({ filter: /\*.p5.js$/ }, async (args) => {
         if (args.resolveDir === "") return
 
@@ -114,30 +144,47 @@ const p5jsPlugin = (config = {}) => {
         }
       })
 
-      // glob
+      // glob load for resolved p5.js sketches
+      //
+      // Reads all files, translates global sketches to instance-based, and
+      // concatenates everything into a single ESM file.
       build.onLoad({ filter: /\*\.p5\.js$/, namespace: "p5js" }, async (args) => {
         const { dirname, sketches, resolveDir } = args.pluginData
+
+        // split each sketch into `import ...` statements and code
         const sketchContents = await Promise.all(
-          sketches.map((sketch) => {
-            return loadAndTranslateFile(path.join(dirname, sketch), translateOptions)
-          }),
+          sketches.map((sketch) =>
+            loadAndTranslateFile(path.join(dirname, sketch), translateOptions),
+          ),
         )
-        const files = sketchContents.map(([imports, contents], i) => {
-          return { path: sketches[i], contents, imports }
+
+        const files = sketchContents.map((translated, i) => {
+          return { path: sketches[i], ...translated }
         })
 
-        let contents = ['import p5 from "p5";', ...files.map((f) => f.imports)]
-        contents.push(files.map(wrappedSketch).join("\n"))
+        let contents = files.map((f) => f.imports)
+        if (!translateOptions.skipImport) {
+          contents.unshift(`import p5 from 'p5';`)
+        }
+        const bundled = files
+          .map((file, i) => {
+            return wrappedSketch(file, { i })
+          })
+          .join("\n")
+        contents.push(bundled)
         contents = contents.join("\n")
-        const formatted = await formatJs(contents)
+
+        // const formatted = await formatJs(contents)
         if (debug.enabled) {
           const tmpdir = path.join(process.cwd(), "tmp")
           await fs.writeFile(path.join(tmpdir, "translated.js"), contents)
-          await fs.writeFile(path.join(tmpdir, "formatted.js"), formatted)
+          // await fs.writeFile(path.join(tmpdir, "formatted.js"), formatted)
         }
 
+        rebuildLog('rebuilt', contents.length, 'bytes') 
+
         return {
-          contents: formatted,
+          contents: contents,
           pluginName: "p5js",
           resolveDir: dirname,
         }
@@ -145,9 +192,21 @@ const p5jsPlugin = (config = {}) => {
 
       // individual files
       build.onLoad({ filter: /[^*]\.p5\.js$/ }, async (args) => {
-        const input = await fs.readFile(args.path, "utf8")
-        const contents = translateWindowFunctions(input)
-        return { contents }
+        const translated = await loadAndTranslateFile(args.path, translateOptions)
+
+        debug({ path: args.path, translated })
+
+        const module = wrappedSketch(translated, { varname: "mySketch", asDefault: true })
+        const contents = [...translated.imports, module]
+        if (!translateOptions.skipImport) {
+          contents.unshift(`import p5 from 'p5';`)
+        }
+
+        return { contents: contents.join("\n") }
+      })
+
+      build.onDispose(() => {
+        FileCache.reset()
       })
     },
   }

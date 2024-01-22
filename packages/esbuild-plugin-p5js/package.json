@@ -11,10 +11,8 @@
   "dependencies": {
     "debug": "^4.3.4",
     "p5": "^1.9.0",
+    "p5js-translator": "file:../p5js-translator",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  },
-  "dependencies": {
-    "p5js-translator": "file:../p5js-translator"
   }
 }

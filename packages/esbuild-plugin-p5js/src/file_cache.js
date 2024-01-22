@@ -14,6 +14,10 @@ class Cache {
     this.memory.set(key, { value, mtime })
     return value
   }
+
+  reset() {
+    this.memory = new Map()
+  }
 }
 
 module.exports = new Cache()
