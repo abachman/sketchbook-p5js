@@ -3,18 +3,18 @@
   "private": true,
   "browser": true,
   "scripts": {
-    "biome": "biome",
     "build": "p5js-sketchbook build",
     "watch": "p5js-sketchbook build --watch"
   },
   "author": "Adam Bachman <adam.bachman@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@svgdotjs/svg.js": "^3.2.0",
     "debug": "^4.3.4",
-    "p5": "^1.9.0"
-  },
-  "devDependencies": {
-    "eventsource": "^2.0.2"
+    "p5": "^1.9.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.2"
   },
   "workspaces": [
     "packages/esbuild-plugin-p5js",

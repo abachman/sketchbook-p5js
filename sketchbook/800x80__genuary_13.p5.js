@@ -1,4 +1,9 @@
-//  800x80, genuary 13 https://editor.p5js.org/abachman/sketches/y1FrVDp4g
+//
+// title: 800x80, genuary 13
+// url: https://editor.p5js.org/abachman/sketches/y1FrVDp4g
+// description: A simple implementation of Conway's Game of Life
+// author: Adam Bachman
+//
 const STEP = 8,
   W = 800,
   H = 80;
@@ -18,10 +23,10 @@ for (let y = 0; y < H / STEP; y++) {
 function setup() {
   createCanvas(W, H);
   noStroke();
-  enableCapture({
-    frameCount: 300,
-    frameRate: 30
-  })
+  // enableCapture({
+  //   frameCount: 300,
+  //   frameRate: 30
+  // })
 }
 
 const MODELS = {

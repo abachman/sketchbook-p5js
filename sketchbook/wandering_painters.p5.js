@@ -42,5 +42,6 @@ function draw() {
 }
 
 function keyPressed() {
-  saveCanvas("screen.png");
+  console.log("you commented out the save feature");
+  // saveCanvas("screen.png");
 }
