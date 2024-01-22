@@ -20,10 +20,8 @@ async function builder(options) {
     minify: false,
     target: "es2020",
     jsx: "automatic",
-    plugins: [
-      p5jsPlugin(config.translate),
-      sketchbookPlugin(config.sketchbook)
-    ],
+    sourcemap: true,
+    plugins: [p5jsPlugin(config.translate), sketchbookPlugin(config.sketchbook)],
   })
 
   if (options.watch) {
@@ -60,10 +58,6 @@ async function loadConfig() {
 }
 
 async function build(options) {
-  if (options.bookmarklet) {
-    return await bookmarklet()
-  }
-
   return builder(options).catch((err) => {
     console.error(err)
     process.exit(1)
