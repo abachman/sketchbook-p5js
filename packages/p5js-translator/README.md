@@ -1,8 +1,8 @@
-A bargain basement source code translator to go from p5.js Global mode to p5.js Instance mode under the hood.
+A bargain basement source code translator to change sketches from p5.js Global mode to p5.js Instance mode.
 
-https://github.com/processing/p5.js/wiki/Global-and-instance-mode
+Notes on what those modes are: https://github.com/processing/p5.js/wiki/Global-and-instance-mode
 
-So we can start with a sketch like this:
+We can start with a sketch like this:
 
 ```javascript
 const colors = []
@@ -79,3 +79,5 @@ new p5(
   }
 )
 ```
+
+It can be used in a builder plugin, like with esbuild, to compile sketches for distribution in browser-safe bundles.

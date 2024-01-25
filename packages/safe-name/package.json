@@ -1,6 +1,6 @@
 { 
   "name": "safe-name",
-  "private": true,
+  "description": "javascript variable-safe name string conversion",
   "main": "index.js",
   "scripts": {
     "test": "node --test"
