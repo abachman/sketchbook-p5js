@@ -18,7 +18,7 @@ function domReady(fn) {
 // Disable React DevTools warnings in console
 window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
 
-export default function App({ sketches, p5, router }) {
+export default function App({ sketches, p5 }) {
   domReady(() => {
     // Clear the existing HTML content
     document.body.innerHTML = '<div id="app"></div>';
@@ -33,10 +33,6 @@ export default function App({ sketches, p5, router }) {
     // Render your React component instead
     const root = createRoot(document.getElementById("app"));
 
-    if (router) {
-      root.render(<RouterProvider router={router} />); 
-    } else {
-      root.render(<RouterProvider router={sketchRouter} />); 
-    }
+    root.render(<RouterProvider router={sketchRouter} />); 
   });
 }

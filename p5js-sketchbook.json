@@ -5,12 +5,14 @@
       "https://cdn.jsdelivr.net/gh/abachman/p5.websocket/dist/p5.websocket.min.js",
       "https://unpkg.com/p5.webm-capture@1.2.1/dist/p5.webm-capture.js",
       "https://cdn.jsdelivr.net/npm/@timohausmann/quadtree-ts/dist/quadtree.umd.full.js"
-    ]
+    ],
+    "stubs": "./src/stubs"
   },
   "translate": {
     "instanceMethods": [
       "connectWebsocket", "sendMessage",
-      "onConnection", "onDisconnection", "connectReceived", "disconnectReceived", "messageReceived",
+      "onConnection", "onDisconnection", "connectReceived",
+      "disconnectReceived", "messageReceived",
       "enableCapture", "stopCapture"
     ]
   }

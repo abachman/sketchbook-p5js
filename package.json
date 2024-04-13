@@ -18,7 +18,6 @@
   },
   "workspaces": [
     "packages/esbuild-plugin-p5js",
-    "packages/esbuild-plugin-bookmarklet",
     "packages/p5js-translator",
     "packages/safe-name",
     "packages/p5js-sketchbook-app"
