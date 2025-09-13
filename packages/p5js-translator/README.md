@@ -51,7 +51,7 @@ sketch.setup = () => {
       HSB = 0
     colors.push([
       () => sketch.color(angle, i * 64, 0),
-      () => {
+        () => {
         const c = sketch.color(angle, i * 64, HSB)
         c.setAlpha(64)
         return c

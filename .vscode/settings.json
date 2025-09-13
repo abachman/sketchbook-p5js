@@ -1,0 +1,6 @@
+{
+  "workbench.colorTheme": "Base16 Dark Solarized",
+  "[javascript]": {
+    "editor.formatOnSave": true
+  }
+}
